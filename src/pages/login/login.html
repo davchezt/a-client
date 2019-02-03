@@ -1,0 +1,40 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Login
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <!--div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="Login" style="margin-top: -55px;">
+  </div-->
+
+  <div style="background-color: #ffffff; margin-top: -15px">
+    <ion-list padding margin-top>
+
+      <ion-item class="form">
+        <ion-label floating>Email</ion-label>
+        <ion-input type="text" value="" [(ngModel)]="userData.username" (keydown)="moveFocus($event)" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+      
+      <ion-item class="form">
+        <ion-label floating>Password</ion-label>
+        <ion-input type="text" [(ngModel)]="userData.password" #inputPassword *ngIf="showPasswordText" (keydown)="moveFocus($event, true)" (focusout)="scrollTop()"></ion-input>
+        <ion-input type="password" [(ngModel)]="userData.password" #inputPassword *ngIf="!showPasswordText" (keydown)="moveFocus($event, true)" (focusout)="scrollTop()"></ion-input>
+        <button ion-button clear color="dark" type="button" item-right (click)="showPasswordText = !showPasswordText" class="eye">
+          <ion-icon name="eye" *ngIf="!showPasswordText" style="zoom: 1.2" color="agrifarm"></ion-icon>
+          <ion-icon name="eye-off" *ngIf="showPasswordText" style="zoom: 1.2" color="agrifarm"></ion-icon>
+        </button>
+      </ion-item>
+      
+      <div margin-top>
+        <button ion-button block #buttonSubmit color="agrifarm" (click)="login()">Login</button>
+        <p center text-center>Belum memiliki akun?</p>
+        <button ion-button block color="agrifarm" (click)="goRegister()" clear>Daftar Disini</button>
+      </div>
+      
+    </ion-list>
+  </div>
+</ion-content>

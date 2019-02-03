@@ -1,0 +1,19 @@
+ion-app._gmaps_cdv_ .nav-decor {
+    background-color: transparent !important;
+}
+
+ion-app._gmaps_cdv_ .ion-page:not(._gmaps_cdv_),
+ion-app._gmaps_cdv_ ion-modal:not(._gmaps_cdv_) {
+    display: none;
+}
+
+page-add-lahan {
+    #map_canvas {
+        height: 295px;
+        background: #ccc;
+    }
+    .swiper-slide {
+        overflow-y: scroll;
+        display: block;
+    }
+}

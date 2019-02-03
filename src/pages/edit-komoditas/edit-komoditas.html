@@ -1,0 +1,76 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Edit Komoditas
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;">
+  </div>
+
+  <ion-list>
+    <ion-item-divider color="light">
+      <h2>Pilih Komoditas</h2>
+    </ion-item-divider>
+    <ion-item class="form">
+      <ion-label style="padding-left: 8px;">Komoditas</ion-label>
+      <ion-select [(ngModel)]="userInput.id_rumus" (ionChange)="onChangeKomoditas($event)">
+        <ion-option *ngFor="let rumus of rumusResult" value="{{rumus.id}}">{{rumus.nama | titlecase}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item-divider color="light">
+      <h2>Pilih Lahan</h2>
+    </ion-item-divider>
+    <ion-item class="form">
+      <ion-label style="padding-left: 8px;">Lahan</ion-label>
+      <ion-select [(ngModel)]="userInput.id_lahan" (ionChange)="onChangeLahan($event)">
+        <ion-option *ngFor="let lahan of lahanResult" value="{{lahan.id}}">{{lahan.nama | titlecase}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item-divider color="light">
+      <h2>Jumlah Komoditas</h2>
+    </ion-item-divider>
+    <ion-item class="form">
+      <ion-input type="number" (keydown)="checkValue($event)" (keyup)="checkValue($event)" [(ngModel)]="userInput.jumlah" (focusout)="scrollTop()"></ion-input>
+    </ion-item>
+
+    <!--ion-item>
+      <ion-label color="gray" floating>Tanggal Tanam</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" (keydown)="checkValue($event)" [(ngModel)]="userInput.tanam" (focusout)="scrollTop()"></ion-datetime>
+    </ion-item-->
+
+    <ion-item-divider color="light">
+      <h2>Usia (Hari Setelah Tanam)</h2>
+    </ion-item-divider>
+    <ion-item class="form">
+      <ion-input type="number" [(ngModel)]="userInput.usia" (keyup)="checkValueUsia($event)" (focusout)="updatePredict()"></ion-input>
+    </ion-item>
+
+    <ion-item-divider color="light">
+      <h2>Perkiraan tanggal tanam</h2>
+      <p ion-text item-end color="agrifarm"><ion-icon name="calendar" style="zoom: 0.8"></ion-icon> {{tanam}}</p>
+    </ion-item-divider>
+
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button clear color="agrifarm" style="padding: 18px;" (click)="back()">
+        Batal
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()" [disabled]="!hasChange">
+        <ion-icon name="checkmark"></ion-icon>
+        Simpan
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

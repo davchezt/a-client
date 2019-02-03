@@ -1,0 +1,104 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">
+      Profil 
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" class="cards-bg social-cards">
+  <div class="cover-profile">
+    <div class="cover-bg"></div>
+  </div>
+
+  <div class="profile-info">
+    <div class="profile-photo">
+      <img [src]="base64Image">
+      <button ion-fab color="agrifarm" mini style="position: relative;top: -40px; left: 52%;" (click)="goUploadPicture()"><ion-icon name="camera"></ion-icon></button>
+    </div>
+    <div class="profile-name" style="margin: -50px auto auto auto;">
+      <h4>{{result.name | titlecase }} <ion-icon color="googlered" name="female" *ngIf="user.kelamin == '1'" style="zoom: 0.8"></ion-icon> <ion-icon color="googlered" name="male" *ngIf="user.kelamin == '0'" style="zoom: 0.8"></ion-icon></h4>
+      <p tappable (click)="viewLocation()">
+        <ion-icon name="pin" style="zoom:0.8;" color="googleyellow"></ion-icon> {{ user.alamat || 'Anda belum melengkapi alamat' }}
+      </p>
+    </div>
+  </div>
+  <hr />
+
+  <ion-segment [(ngModel)]="navigasi" color="agrifarm" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="lahan" style="background: #fff">
+      Lahan
+    </ion-segment-button>
+    <ion-segment-button value="komoditas" style="background: #fff">
+      Komoditas
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="navigasi" margin-top>
+    <ion-list *ngSwitchCase="'lahan'">
+      <ion-list>
+        <ion-item *ngFor="let lhn of lahan">
+          <ion-thumbnail item-start (click)="openLahan(lhn.id)">
+            <img src="{{apiService.url}}/{{lhn.foto}}" style="border-radius: 50%; box-shadow: 0px 4px 4px #a3a3a3">
+          </ion-thumbnail>
+          <ion-label tappable (click)="openLahan(lhn.id)">
+            {{lhn.nama}}
+            <h6 ion-text color="gray">{{lhn.luas}} {{getLuas(lhn.satuan)}}</h6>
+            <p ion-text color="agrifarmdark"><ion-icon name="pin" icon start style="zoom:0.7;"></ion-icon> {{lhn.lokasi}}</p>
+            <h6 ion-text><ion-badge color="tumblr">{{lhn.komoditas}} Komoditas</ion-badge></h6>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </div>
+
+  <div [ngSwitch]="navigasi" margin-top>
+    <div *ngIf="!adaLahan">
+      <ion-card *ngSwitchCase="'lahan'">
+        <ion-card-content>
+          <p ion-text text-center>Belum ada data lahan untuk ditampilkan.</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <div [ngSwitch]="navigasi" margin-top>
+    <ion-list *ngSwitchCase="'komoditas'">
+      <ion-list>
+        <ion-item *ngFor="let kmdts of komoditas">
+          <ion-icon color="light" item-start name="calendar" style="background: #88b917;padding: 8px 12px;border-radius: 50%;border: 4px solid #d8ea27;box-shadow: 0px 4px 4px #a3a3a3;zoom:1.0;"></ion-icon>
+          <ion-label>
+            {{ kmdts.nama | titlecase }}<br /><small ion-text color="facebook">{{ kmdts.jumlah }}</small> <small>tanaman</small>
+          </ion-label>
+          <ion-note item-end ion-text color="gray" style="text-overflow: ellipsis;display: block;width: 90px;">
+            <ion-icon name="pin" style="zoom:0.7;" color="tumblr"></ion-icon>
+            <small>{{kmdts.lahan}}</small><br />
+            <small>luas: {{ kmdts.luas_lahan }}{{ kmdts.satuan_lahan }}</small>
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-list>
+  </div>
+
+  <div [ngSwitch]="navigasi" margin-top>
+    <div *ngIf="!adaKomoditas">
+      <ion-card *ngSwitchCase="'komoditas'">
+        <ion-card-content>
+          <p ion-text text-center>Belum ada data komoditas untuk ditampilkan.</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+
+  <ion-fab bottom right>
+    <button ion-fab mini color="agrifarm" (click)="presentActionSheet()"><ion-icon name="create"></ion-icon></button>
+  </ion-fab>
+</ion-content>

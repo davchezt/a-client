@@ -1,0 +1,36 @@
+<ion-header>
+
+  <ion-navbar color="agrifarm">
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">Tutup</button>
+      </ion-buttons>
+      <ion-title>{{type | uppercase}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div *ngIf="id">
+    <h2 ion-text text-center>
+      <ion-icon name="alert" style="zoom:4.0" color="googleplus"></ion-icon><br />
+      <p ion-text color="agrifarm">PERHATIAN:<br />ini akan menghapus data selamanaya!</p>
+    </h2>
+    <!--p>Parameters passed:</p>
+    <h1 style="background-color: #f8f8f8">{{id}}</h1-->
+
+    <button ion-button full color="googleplus" full (click)="delete()">Hapus</button>
+    <button ion-button full color="agrifarm" full (click)="dismiss()">Batal</button>
+  </div>
+  <div *ngIf="!id">
+    <h2 ion-text text-center>
+      <ion-icon name="warning" style="zoom:4.0" color="googleplus"></ion-icon><br />
+      <p ion-text color="agrifarm">Ops:<br />terjadi kesalahan.</p>
+    </h2>
+    <!--p>Parameters passed:</p>
+    <h1 style="background-color: #f8f8f8">{{id}}</h1-->
+
+    <button ion-button full color="agrifarm" full (click)="dismiss()">Tutup</button>
+  </div>
+
+</ion-content>

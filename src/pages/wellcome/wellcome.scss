@@ -1,0 +1,118 @@
+page-wellcome {
+  .splash-bg {
+    position: relative;
+    // background: url("../assets/img/cover.png") no-repeat transparent;
+    // background-size: cover;
+    // width: 100%;
+    // height: 40%;
+    // z-index: 1;
+    // background-repeat: repeat-x;
+    // animation: animatedBackground 10s linear infinite;
+  }
+
+  // @keyframes animatedBackground {
+  //   0% {
+  //     background-position: 0% 50%;
+  //   }
+  //   50% {
+  //     background-position: 100% 50%;
+  //   }
+  //   100% {
+  //     background-position: 0% 50%;
+  //   }
+  // }
+
+  .header {
+    display: block;
+    min-height: 240px;
+    /* max-height: 300px; */
+    overflow: hidden;
+    color: color($colors, light);
+    background: #fff;
+    width: 100%;
+    height: auto;
+    color: #000;
+
+    &:before {
+      content: " ";
+      height: 275px;
+      box-shadow: 0px 1px 8px inset #6d6d6d;
+      border-radius: 100%;
+      position: absolute;
+      margin-left: auto;
+      margin-right: auto;
+      top: -15%;
+      left: -25%;
+      right: -25%;
+      bottom: 0;
+      background: url("../assets/img/cover.png") no-repeat transparent;
+      background-size: 150% 125%;
+      animation: grdientAnim 10s ease infinite;
+    }
+
+    &:after {
+      content: " ";
+      position: absolute;
+      bottom: 0;
+      left: -20px;
+      right: -20px;
+      top: -20px;
+      height: 370px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0px -1px 8px inset #dbdbdb;
+    }
+  }
+
+  @keyframes grdientAnim {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .splash-info {
+    position: relative;
+    z-index: 2;
+    margin-top: -64px;
+    text-align: center;
+  }
+
+  .splash-logo {
+    margin: auto;
+    background: url("../assets/img/agritama.png") repeat transparent;
+    background-size: 100%;
+    border-radius: 50%;
+    box-shadow: 0px 4px 4px #a3a3a3;
+    width: 128px;
+    height: 128px;
+  }
+
+  .splash-intro {
+    font-size: 18px;
+    font-weight: bold;
+    max-width: 80%;
+    margin: 18px auto auto auto;
+    margin-top: 64px;
+  }
+
+  button.login {
+    margin-top: 25px;
+    background-color: white;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    color: #333;
+
+    &.activated {
+      background-color: rgb(220, 220, 220);
+    }
+  }
+
+  .button-login {
+    margin-top: 20px;
+  }
+}

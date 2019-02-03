@@ -1,0 +1,111 @@
+<ion-header [class.opaque]="showToolbar">
+    <ion-navbar color="agrifarm">
+      <ion-buttons start>
+        <button ion-button color="light" (click)="dismiss()" *ngIf="!hasFocus" icon-end>Tutup</button>
+        <button ion-button color="light" (click)="setBlurInput()" *ngIf="hasFocus" icon-end>Oke</button>
+      </ion-buttons>
+    
+      <ion-title [hidden]="!showToolbar">{{pageId | uppercase}}</ion-title>
+    </ion-navbar>
+  </ion-header>
+
+
+<ion-content (ionScroll)="onScroll($event)">
+  <div *ngIf="callbackFnc" class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;">
+  </div>
+  
+  <ion-slides (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let s of slide">
+      <div [ngSwitch]="s.name" margin-top>
+        <ion-list *ngSwitchCase="'komoditas'">
+          <h1 ion-text color="agrifarm">
+            <ion-icon name="clipboard" style="zoom:4.0;"></ion-icon><br />
+            <h2>Pilih Komoditas</h2>
+          </h1>
+          <div padding style="margin-top: -10px;">
+            <ion-item class="form">
+              <ion-label style="padding-left: 8px;">Komoditas</ion-label>
+              <ion-select [(ngModel)]="userData.id_rumus" (ionChange)="onChangeLahan($event)">
+                <ion-option *ngFor="let rumus of rumusData" value="{{rumus.id}}">{{rumus.nama | titlecase}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'jumlah'">
+          <h1 ion-text color="agrifarm" *ngIf="!hasFocus">
+            <ion-icon name="clipboard" style="zoom:4.0;"></ion-icon><br />
+            <h2>Jumlah Populasi</h2>
+          </h1>
+          <div padding style="margin-top: -10px;">
+            <ion-item class="form">
+              <ion-label floating color="agrifarm">Jumlah</ion-label>
+              <ion-input type="number" value="" [(ngModel)]="userData.jumlah" (keydown)="checkValue($event)" (keyup)="checkValue($event)" clearInput (focusin)="scrlBottom()" (focusout)="scrlTop()" #inputJumlah></ion-input>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'usia'">
+          <div *ngIf="saved">
+            <h1 ion-text color="agrifarm">
+              <ion-icon name="help-circle" style="zoom:4.0;"></ion-icon><br />
+              <h2>Ada Komoditas Lain?</h2>
+            </h1>
+            <ion-fab center>
+              <button ion-fab mini color="agrifarm" (click)="reset()">
+                <ion-icon name="checkmark"></ion-icon>
+              </button>
+            </ion-fab>
+            <br /><br /><br />
+            <ion-fab center>
+              <button ion-fab mini color="agrifarm" (click)="dismiss()">
+                <ion-icon name="close"></ion-icon>
+              </button>
+            </ion-fab>
+          </div>
+          
+          <div *ngIf="!saved">
+            <h1 ion-text color="agrifarm" *ngIf="!hasFocus">
+              <ion-icon name="clipboard" style="zoom:4.0;"></ion-icon><br />
+              <h2>Usia (Hari Setelah Tanam)</h2>
+            </h1>
+            <div padding style="margin-top: -10px;">
+              <ion-item class="form">
+                <ion-label floating color="agrifarm">Usia</ion-label>
+                <ion-input type="number" value="" [(ngModel)]="userData.usia" (keydown)="checkValueUsia($event)" (keyup)="checkValueUsia($event)" clearInput (focusin)="scrlBottom()" (focusout)="scrlTop()" #inputUsia></ion-input>
+              </ion-item>
+            </div>
+          </div>
+        </ion-list>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer *ngIf="!saved" #footerInput style="background-color: #fff;">
+  <ion-toolbar color="light">
+
+    <ion-buttons left *ngIf="!disableBack">
+      <button ion-button icon-start round color="agrifarm" (click)="goPrev()">
+        <ion-icon name="arrow-back" start></ion-icon>
+        Kembali
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right *ngIf="!finish">
+      <button ion-button icon-end round color="agrifarm" (click)="goNext()" [disabled]="disableNext">
+        Lanjutkan
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right *ngIf="finish">
+      <button ion-button icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()" [disabled]="!done">
+        <ion-icon name="checkmark"></ion-icon>
+        Selesai
+      </button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,102 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Edit Lahan
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="home">
+  </div>
+
+  <div class="lahan-info">
+    <div class="lahan-photo">
+      <img src="{{fotoScr}}">
+      <ion-fab center style="margin-top: 80px;margin-left: 12px;">
+        <button ion-fab mini color="agrifarm">
+          <ion-icon name="add"></ion-icon>
+        </button>
+        <ion-fab-list side="left">
+          <button ion-fab small (click)="openCamera()" color="agrifarm">
+            <ion-icon name="camera"></ion-icon>
+          </button>
+          <button ion-fab small (click)="openGalery()" color="agrifarm">
+            <ion-icon name="images"></ion-icon>
+          </button>
+        </ion-fab-list>
+      </ion-fab>
+    </div>
+  </div>
+
+  <div style="background-color: #ffffff; margin-top: -5px">
+    <ion-list margin-top>
+
+      <ion-item-divider color="light">
+        <h2>Nama Lahan</h2>
+      </ion-item-divider>
+      <ion-item class="form">
+        <ion-input [(ngModel)]="userInput.nama" type="text" value="{{userInput.nama}}" (keydown)="checkValueNama()" (keyup)="checkValueNama()" (focusout)="scrollTop()" clearInput #namaLahan></ion-input>
+        <button ion-button icon-only item-end clear (click)="setFocusNama()" color="agrifarm">
+          edit&nbsp;&nbsp;
+          <ion-icon name="create" style="zoom: 0.8"></ion-icon>
+        </button>
+      </ion-item>
+
+      <ion-item-divider color="light">
+        <h2>Lokasi Lahan</h2>
+      </ion-item-divider>
+      
+      <ion-item class="form">
+        <h4 style="padding-left: 8px;">{{userInput.lokasi | titlecase}}</h4>
+        <button ion-button icon-only item-end clear (click)="locate()" color="agrifarm">
+          locate&nbsp;&nbsp;
+          <ion-icon name="locate"></ion-icon>
+        </button>
+      </ion-item>
+
+      <ion-item-divider color="light">
+        <h2>Luas Lahan</h2>
+      </ion-item-divider>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-7>
+            <ion-item class="form" style="margin-top: -30px;">
+              <ion-label floating>&nbsp;&nbsp;</ion-label>
+              <ion-input [(ngModel)]="userInput.luas" type="number" value="{{userInput.luas}}" (keydown)="checkValueLuas()" (keyup)="checkValueLuas()" (focusout)="scrollTop()" clearInput style="padding-right: -4px;"></ion-input>
+            </ion-item>
+          </ion-col>
+
+          <ion-col col-5>
+            <ion-item style="margin-top: -30px;">
+              <ion-label floating>&nbsp;&nbsp;</ion-label>
+              <ion-select [(ngModel)]="userInput.satuan" cancelText="Batal" okText="Ok" (ionChange)="onChangeSatuan()">
+                <ion-option value="T">Tumbak</ion-option>
+                <ion-option value="M">Meter</ion-option>
+                <ion-option value="H">Hektar</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer #footerInput style="background-color: #fff;">
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button clear color="agrifarm" style="padding: 18px;" (click)="back()">
+        Batal
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()" [disabled]="!hasChange">
+        <ion-icon name="checkmark"></ion-icon>
+        Simpan
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

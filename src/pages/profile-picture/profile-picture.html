@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar color="agrifarm">
+    <ion-title>
+      
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)">
+
+  <ion-card>
+    <img src="assets/img/cover_p.png" alt="bg">
+    <div class="profile-photo">
+      <img [src]="base64Image">
+    </div>
+    <ion-card-content>
+      <hr />
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <ion-fab center>
+              <button ion-fab mini color="agrifarm" (click)="openCamera()">
+                <ion-icon name="camera"></ion-icon>
+              </button>
+            </ion-fab>
+            <p ion-text text-center style="margin:60px 0 0 0;">Kamera</p>
+          </ion-col>
+          <ion-col col-6>
+            <ion-fab center>
+              <button ion-fab mini color="agrifarm" (click)="openGalery()">
+                <ion-icon name="images"></ion-icon>
+              </button>
+            </ion-fab>
+            <p ion-text text-center style="margin:60px 0 0 0;">Album</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button clear color="agrifarm" style="padding: 18px;" (click)="back()">
+        Batal
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()" [disabled]="!hasImage">
+        <ion-icon name="checkmark"></ion-icon>
+        Simpan
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

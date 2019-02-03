@@ -1,0 +1,19 @@
+<ion-list>
+    <ion-list-header color="agrifarm"><h2>Pilihan</h2></ion-list-header>
+    <button small ion-item (click)="addKomoditas()" *ngIf="type == 'lahan'">
+        <ion-icon item-left name="add"></ion-icon>
+        Tambah Komoditas
+    </button>
+    <button small ion-item (click)="openLahan()" *ngIf="type == 'lahan'">
+        <ion-icon item-left name="list-box"></ion-icon>
+        Lihat
+    </button>
+    <button small ion-item (click)="edit()">
+        <ion-icon item-left name="create"></ion-icon>
+        Ubah
+    </button>
+    <button small ion-item (click)="hapus()">
+        <ion-icon item-left name="trash"></ion-icon>
+        Hapus
+    </button>
+</ion-list>

@@ -1,0 +1,129 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-buttons end>
+      <button ion-button color="light" (click)="dismiss()" *ngIf="!hasFocus" icon-end>Tutup</button>
+      <button ion-button color="light" (click)="setBlurInput()" *ngIf="hasFocus" icon-end>Oke</button>
+    </ion-buttons>
+  
+    <ion-title [hidden]="!showToolbar">{{pageId | uppercase}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding (ionScroll)="onScroll($event)">
+  <ion-slides (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let s of slide">
+      <div [ngSwitch]="s.name" margin-top>
+        <ion-list *ngSwitchCase="'nama'">
+          <h1 ion-text color="agrifarm" *ngIf="!hasFocus">
+            <ion-icon name="pricetags" style="zoom:4.0;"></ion-icon><br />
+            <h2 style="margin-top: -5px;">Nama Lahan</h2>
+          </h1>
+          <div padding style="margin: auto;">
+            <ion-item class="form">
+              <ion-label floating color="agrifarm">Nama Lahan</ion-label>
+              <ion-input type="text" value="" [(ngModel)]="userData.nama_lahan" (keydown)="checkValue($event)" (keyup)="checkValue($event)" (focusin)="scrlBottom()" (focusout)="scrlTop()" clearInput #inputNama></ion-input>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'lokasi'">
+          <h1 ion-text color="agrifarm" icon-center *ngIf="!hasFocus">
+            <ion-icon name="pin" style="zoom:4.0;"></ion-icon><br />
+            <h2 style="margin-top: -5px;">Lokasi Lahan</h2>
+          </h1>
+          <div padding style="margin-top: -25px;">
+            <ion-item class="form">
+              <ion-label floating color="agrifarm">Lokasi Lahan</ion-label>
+              <ion-input type="text" value="" [(ngModel)]="userData.lokasi_lahan" clearInput (focusin)="scrlBottom()" (focusout)="scrlTop()" #inputLokasi></ion-input>
+              <button ion-button item-end (click)="locate()" color="agrifarm" style="margin-right: -8px;margin-top: 18px;margin-bottom: 0;width: 40px;height: 40px;"><ion-icon name="locate"></ion-icon></button>
+            </ion-item>
+            <!--button ion-button full (click)="locate()" icon-start color="agrifarm"><ion-icon name="locate"></ion-icon> Gunakan Lokasi Sekarang</button-->
+            <div id="map_canvas"></div>
+            
+            <img *ngIf="bIsShowImage" [src]="imgSrc">
+            <button *ngIf="bIsShowImage" ion-button full (click)="uploadFile()" color="agrifarm">Simpan</button>
+          </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'luas'">
+          <h1 ion-text color="agrifarm" *ngIf="!hasFocus">
+            <ion-icon name="contract" style="zoom:4.0;"></ion-icon><br />
+            <h2 style="margin-top: -5px;">Luas Lahan</h2>
+          </h1>
+          <div padding style="margin-top: -30px;">
+            <ion-item class="form">
+              <ion-label floating color="agrifarm">Luas Lahan</ion-label>
+              <ion-input type="number" value="" [(ngModel)]="userData.luas_lahan" (keydown)="checkValue($event)" (keyup)="checkValue($event)" clearInput (focusin)="scrlBottom()" (focusout)="scrlTop()" #inputLuas></ion-input>
+            </ion-item>
+            <ion-item class="form">
+              <ion-label color="agrifarm">Satuan</ion-label>
+              <ion-select [(ngModel)]="userData.satuan_lahan" cancelText="Batal" okText="Ok" (ionChange)="onChangeSatuan($event)">
+                <ion-option value="T" selected>Tumbak</ion-option>
+                <ion-option value="M">Meter</ion-option>
+                <ion-option value="H">Hektar</ion-option>
+              </ion-select>
+            </ion-item>
+          </div>
+        </ion-list>
+
+        <ion-list *ngSwitchCase="'foto'">
+          <h1 ion-text color="agrifarm">
+            <ion-icon name="images" style="zoom:4.0;"></ion-icon><br />
+            <h2 style="margin-top: -5px;">Foto Lahan</h2>
+          </h1>
+          <div padding style="margin-top: -30px;">
+            <ion-fab center>
+              <button ion-fab mini color="agrifarm">
+                <ion-icon name="add"></ion-icon>
+              </button>
+              <ion-fab-list side="bottom">
+                <button ion-fab small (click)="openCamera()" color="agrifarm">
+                  <ion-icon name="camera"></ion-icon>
+                </button>
+                <button ion-fab small (click)="openGalery()" color="agrifarm">
+                  <ion-icon name="images"></ion-icon>
+                </button>
+              </ion-fab-list>
+            </ion-fab>
+          </div>
+          <div padding *ngIf="bIsShowImage">
+            <img [src]="imgSrc" style="margin: auto; width: 256px; height: 256px; border-radius: 50%; -webkit-box-shadow: 0px 4px 4px #a3a3a3; box-shadow: 0px 4px 4px #a3a3a3;">
+            <!--button ion-button full (click)="uploadFile()" color="agrifarm">Simpan</button-->
+          </div>
+          <!--div padding>
+            <button ion-button full (click)="showImage()" color="agrifarm" icon-start><ion-icon name="pin"></ion-icon> Gunakan Map Sebagai Foto</button>
+          </div-->
+  
+        </ion-list>
+      </div>
+
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer #footerInput style="background-color: #fff;">
+  <ion-toolbar color="light">
+
+    <ion-buttons left *ngIf="!disableBack">
+      <button ion-button icon-start round color="agrifarm" (click)="goPrev()">
+        <ion-icon name="arrow-back" start></ion-icon>
+        Kembali
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right *ngIf="!finish">
+      <button ion-button icon-end round color="agrifarm" (click)="goNext()" [disabled]="disableNext">
+        Lanjutkan
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right *ngIf="finish">
+      <button ion-button icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()">
+        <ion-icon name="checkmark"></ion-icon>
+        Selesai
+      </button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,66 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">
+      Contact Us
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;">
+  </div>
+  
+  <ion-card margin-top padding>
+    <h2>Ingin menyampaikan sesuatu kepada kami?</h2><hr />
+    <ion-list radio-group [(ngModel)]="kirimPesan">
+      <ion-item>
+        <ion-label>Ya</ion-label>
+        <ion-radio value="true" color="agrifarm"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Tidak</ion-label>
+        <ion-radio value="" checked color="agrifarm"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <div [hidden]="!kirimPesan" margin-top>
+    <ion-list padding>
+      <ion-item-divider color="light">Silahkan lenkapi formulir berikut</ion-item-divider>
+      <ion-item class="form">
+        <ion-label color="agrifarm">Kategori</ion-label>
+        <ion-select [(ngModel)]="userInput.subject">
+          <ion-option value="Feedback">Feedback</ion-option>
+          <ion-option value="Pertanyaan">Pertanyaan</ion-option>
+          <ion-option value="Kritik dan saran">Kritik dan saran</ion-option>
+          <ion-option value="Tawaran Kerjasama">Tawaran Kerjasama</ion-option>
+        </ion-select>
+      </ion-item>
+        
+      <ion-item class="form">
+        <ion-label color="agrifarm" floating>Alamat email</ion-label>
+        <ion-input type="email" (keydown)="checkValue()" [(ngModel)]="userInput.email" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+    
+      <ion-item class="form">
+        <ion-label color="agrifarm" floating>Tuliskan pesan anda</ion-label>
+        <ion-textarea (keydown)="checkValue()" [(ngModel)]="userInput.message" (focusout)="scrollTop()"></ion-textarea>
+      </ion-item>
+      <ion-item></ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer [hidden]="!kirimPesan" #footerInput style="background-color: #fff;">
+  <ion-toolbar>
+    <ion-buttons right>
+      <button ion-button solid style="padding: 18px;" color="agrifarm" (click)="send()" [disabled]="!hasChange">
+        Kirim
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

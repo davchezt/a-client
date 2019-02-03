@@ -1,0 +1,43 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">
+      Obrolan
+    </ion-title>
+    <ion-buttons end>
+      <!--button ion-button icon-only (click)="addRoom()">
+        <ion-badge color="secondary" *ngIf='common.userInroom.length > 0'>{{ common.userInroom.length }}</ion-badge>
+        <ion-icon name="add"></ion-icon>
+      </button-->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;">
+  </div>
+
+  <ion-list>
+    <ion-item *ngFor="let chat of dataServices.rooms" (click)="openChat(chat.id)" tappable>
+      <ion-icon item-start [name]="chat.agronomis ? 'ios-chatboxes-outline':'ios-text-outline'" style="zoom: 2; margin-top: 0; margin-left: 4px; margin-right: 0;" color="agrifarm"></ion-icon>
+      <p>
+        {{ chat.subject }}
+        <br />
+        <span *ngIf="chat.message">
+          <i ion-text [color]="chat.message.read ? 'dark':'primary'" *ngIf="chat.message.from !== userData.user_id">{{ chat.message.text }}</i>
+          <i ion-text color="dark" *ngIf="chat.message.from === userData.user_id">saya: {{ chat.message.text }}</i>
+        </span>
+      </p>
+      <ion-note><small>#{{ chat.id }}</small></ion-note>
+      <h6 ion-text text-left color="agrifarm">{{ (chat.created * 1000) | date: 'M/dd/yyyy'}}  {{ common.getHHMM(chat.created) }}</h6>
+      <ion-badge item-end color="secondary" *ngIf='chat.new > 0'>{{ chat.new }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab right bottom style="bottom: 25px;">
+    <button ion-fab color="agrifarm" (click)="addRoom()"><ion-icon name="ios-text" style="zoom: 1.5"></ion-icon></button>
+  </ion-fab>
+</ion-content>

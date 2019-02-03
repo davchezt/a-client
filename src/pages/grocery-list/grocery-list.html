@@ -1,0 +1,74 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">
+      Harus Dipanen
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)">
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="Register">
+  </div>
+
+  <div padding>
+    <timeline endIcon="close" *ngIf="adaJadwal">
+      <timeline-item *ngFor="let item of items">
+        <timeline-time [time]="item.time"></timeline-time>
+        <ion-icon [name]="item.ticon" class="timeine"></ion-icon>
+        <ion-card style="width: 100% !important; max-width: 250px;">
+          <ion-card-header style="padding: 0;">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12 no-padding (click)="viewLahan(item.lahan_id)" style="box-shadow: 0px 1px 4px 0px #58a9a1;" tappable>
+                  <ion-list>
+                    <ion-item style="text-overflow: ellipsis;">
+                      <ion-avatar item-start style="margin: 8px 16px 8px -5px;">
+                        <img src="{{apiService.url}}/{{item.lahan_foto}}" style="margin: auto; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0px 4px 4px #a3a3a3;">
+                      </ion-avatar>
+                      <h2 ion-text color="agrifarm" style="text-overflow: ellipsis;display: contents;">{{item.lahan_nama | slice:0:25}}</h2>
+                      <p style="text-overflow: ellipsis;width: 150px;">{{item.lahan_lokasi | slice:0:25}}</p>
+                    </ion-item>
+                  </ion-list>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-header>
+          
+          <ion-card-content style="background: #58cfc3;margin-top: -15px;padding: 0;">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12 no-padding text-center>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <h3 style="color:#f0f8ff"><ion-icon name="checkmark-circle"></ion-icon>&nbsp;&nbsp;HARI INI PANEN</h3><hr />
+                  <table style="width: 100%;color:#f0f8ff">
+                    <tr>
+                      <td ion-text text-right width="40%">Tonase</td>
+                      <td width="10%">&nbsp;:</td>
+                      <td ion-text text-left>{{item.panen_tonase}} ton</td>
+                    </tr>
+                  </table>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </timeline-item>
+    </timeline>
+    <ion-list *ngIf="!adaJadwal">
+      <ion-card>
+        <ion-card-content>
+          <p ion-text text-center>Belum ada jadwal panen hari ini.</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+    <br />
+    <br />
+    <br />
+  </div>
+
+</ion-content>

@@ -1,0 +1,82 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">
+      Pengaturan Akun
+    </ion-title>
+  </ion-navbar>
+
+  <ion-toolbar [hidden]="showToolbar" no-border-top color="agrifarm">
+    <ion-segment [(ngModel)]="navigasi" color="light" (ionChange)="segmentChanged($event)">
+      <ion-segment-button value="username">
+        Email
+      </ion-segment-button>
+      <ion-segment-button value="password">
+        Password
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="Register">
+  </div>
+
+  <div [ngSwitch]="navigasi" margin-top>
+    <ion-list *ngSwitchCase="'username'" padding>
+      <ion-item class="form">
+        <ion-label floating>Email Sekarang</ion-label>
+        <ion-input type="text" [(ngModel)]="userData.username" value="{{userData.username}}" (keydown)="checkValue()" (keyup)="checkValue()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+      
+      <ion-item class="form">
+        <ion-label floating>Email Baru</ion-label>
+        <ion-input type="text" [(ngModel)]="userInput.username" value="{{userInput.username}}" (keydown)="checkValue()" (keyup)="checkValue()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+      <ion-item class="form">
+        <small ion-text text-center color="agrifarm">Kosongkan jika anda tidak ingin mengubahnya.</small>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'password'" padding>
+      <!--ion-item-divider color="light">Pengaturan Akun &mdash; Password</ion-item-divider-->
+      <ion-item class="form">
+        <ion-label floating>Password Sekarang</ion-label>
+        <ion-input type="password" [(ngModel)]="userData.password" value="{{userData.password}}" (keydown)="checkValuePassword()" (keyup)="checkValuePassword()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+      
+      <ion-item class="form">
+        <ion-label floating>Password Baru</ion-label>
+        <ion-input type="password" [(ngModel)]="userInput.password" value="{{userInput.password}}" (keydown)="checkValuePassword()" (keyup)="checkValuePassword()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+
+      <ion-item class="form">
+        <ion-label floating>Ulangi Password Baru</ion-label>
+        <ion-input type="password" [(ngModel)]="userInput.refpassword" value="{{userInput.refpassword}}" (keydown)="checkValuePassword()" (keyup)="checkValuePassword()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+      <ion-item class="form">
+        <small ion-text text-center color="agrifarm">Kosongkan jika anda tidak ingin mengubahnya.</small>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer #footerInput style="background-color: #fff;">
+  <ion-toolbar>
+    <ion-buttons right>
+      <div [ngSwitch]="navigasi">
+        <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="saveUsername()" [disabled]="!hasChangeUsername" *ngSwitchCase="'username'">
+          <ion-icon name="checkmark"></ion-icon>
+          Simpan
+        </button>
+        <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="savePassword()" [disabled]="!hasChangePassword" *ngSwitchCase="'password'">
+          <ion-icon name="checkmark"></ion-icon>
+          Simpan
+        </button>
+      </div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

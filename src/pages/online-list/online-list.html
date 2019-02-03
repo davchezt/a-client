@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-navbar color="agrifarm">
+    <ion-buttons start>
+      <button ion-button color="ptimari" (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Oborolan</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <button ion-item class="form" *ngFor="let user of userList" (click)="userSelected(user)" color="{{nickname === user ? 'light':'white'}}">
+      {{ user }}
+      <ion-icon name="radio-button-on" item-end style="zoom: .5;margin-top: 30px;margin-bottom: 0;" color="secondary"></ion-icon>
+    </button>
+  </ion-list>
+</ion-content>

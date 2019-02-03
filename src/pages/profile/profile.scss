@@ -1,0 +1,86 @@
+page-profile {
+  .cover-profile {
+    position: relative;
+
+    .cover-bg {
+      display: block;
+      min-height: 320px;
+      /* max-height: 300px; */
+      overflow: hidden;
+      color: color($colors, dark);
+      background: color($colors, light);;
+      width: 100%;
+      height: auto;
+      color: #000;
+
+      &:before {
+        content: " ";
+        height: 180px;
+        box-shadow: 0px 1px 8px inset #6d6d6d;
+        border-bottom: 1px solid #b7b7b7;
+        border-radius: 0 0 100% 100%;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        top: -5px;
+        left: -15%;
+        right: -15%;
+        bottom: 0;
+        background: url("../assets/img/cover_p.png") no-repeat transparent;
+        background-size: 100% 100%;
+      }
+
+      // &:after {
+      //   content: " ";
+      //   position: absolute;
+      //   bottom: 0;
+      //   left: -20px;
+      //   right: -20px;
+      //   top: -20px;
+      //   height: 210px;
+      //   margin-left: auto;
+      //   margin-right: auto;
+      //   box-shadow: 0px -1px 8px inset #dbdbdb;
+      // }
+    }
+  }
+
+  .putih {
+    margin-top: 25px;
+    background-color: white;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2);
+    color: #333;
+
+    &.activated {
+      background-color: rgb(220, 220, 220);
+    }
+  }
+
+  .profile-info {
+    position: relative;
+    z-index: 2;
+    margin-top: -215px;
+    text-align: center;
+
+    .profile-nama {
+      font-size: 18px;
+      font-weight: bold;
+      max-width: 80%;
+      margin: -35px auto auto auto;
+    }
+
+    .profile-nama p {
+      margin-top: -35px;
+    }
+
+    img {
+      margin: auto;
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 6px solid #fff;
+      box-shadow: 0px 4px 4px #a3a3a3;
+    }
+  }
+
+}

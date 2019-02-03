@@ -1,0 +1,94 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Edit Alamat / Lokasi
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content (ionScroll)="onScroll($event)">
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="home" style="margin-top: -55px;">
+  </div>
+
+  <div margin-top padding *ngIf="!isTracked">
+    <ion-fab center>
+      <button ion-fab color="agrifarm" (click)="locate()">
+        <ion-icon name="locate"></ion-icon>
+      </button>
+    </ion-fab>
+    <div margin-top ion-text text-center>
+      <h6 style="position: relative; top: 60px;">Track Lokasi</h6>
+    </div>
+  </div>
+
+  <ion-card *ngIf="isTracked">
+    <ion-item>
+      <ion-avatar item-start>
+        <ion-icon name="pin" style="zoom: 2.0; padding: 5px;"></ion-icon>
+      </ion-avatar>
+      <h2 ion-text color="agrifarm">{{locationResult.locality || 'Sumedang'}}</h2>
+      <p ion-text text-left>{{locationResult.subLocality || 'Cipacing'}}</p>
+      <button ion-fab mini item-end (click)="locate()" color="agrifarm"><ion-icon name="locate"></ion-icon></button>
+    </ion-item>
+
+    <img src="assets/img/cover_p.png" style="height: 120px;">
+    <div class="card-title"><ion-icon name="pin" color="googleyellow"></ion-icon></div>
+    <div class="card-subtitle">{{locationResult.subLocality || 'Cipacing'}} &mdash; {{locationResult.locality || 'Sumedang'}}</div>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6 no-padding ion-text text-left>
+            Lat: {{userLocation.latitude}}
+          </ion-col>
+          <ion-col col-6 no-padding ion-text text-right>
+            Lng: {{userLocation.longitude}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 ion-text text-right>
+            Lokasi      <br/>
+            No          <br/>
+            Kecamatan   <br/>
+            Kabupaten   <br/>
+            Provinsi    <br/>
+            Negara      <br/>
+            Kodepos     <br/>
+            Kode Negara <br/>
+          </ion-col>
+          <ion-col col-8>
+            <span ion-text color="agrifarmdark">{{locationResult.thoroughfare || 'Jalan Kartika III Block E'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.subThoroughfare || '4'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.subLocality || 'Cipacing'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.locality || 'Sumedang'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.administrativeArea || 'Jawa Barat'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.countryName || 'Indonesia'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.postalCode || '45363'}}</span><br/>
+            <span ion-text color="agrifarmdark">{{locationResult.countryCode || 'ID'}}</span><br/>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button clear color="agrifarm" style="padding: 18px;" (click)="back()">
+        Batal
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()" [disabled]="!isTracked">
+        <ion-icon name="checkmark"></ion-icon>
+        Simpan
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

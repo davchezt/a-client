@@ -1,0 +1,66 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      {{calName}}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)">
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover_p.png" alt="Register">
+  </div>
+    
+  <ion-card *ngFor="let eva of agriFarmEvent">
+    <img src="assets/img/ica-slidebox-img-4.png" class="slide-image" />
+
+    <ion-list>
+      <ion-item>
+        <h2>{{eva.title}}</h2>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="calendar" item-start large></ion-icon> 
+        <h3>Dimulai pada:</h3>
+        <P>{{eva.dtstart | date: 'yyyy/MM/dd HH:mm:ss'}}</P>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="calendar" item-start large></ion-icon> 
+        <h3>Berakhir pada:</h3>
+        <P>{{eva.dtend | date: 'yyyy/MM/dd HH:mm:ss'}}</P>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="star" item-start large></ion-icon>
+        <h3>Event Id: {{eva.event_id}} / Calendar ID: {{eva.calendar_id}}</h3>
+        <P>
+          All Day: {{eva.allDay}} 
+          ID: {{eva.id}}
+        </P>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="pin" item-start large></ion-icon>
+        <h3>Lokasi:</h3>
+        <p>{{eva.eventLocation}}</p>
+      </ion-item>
+
+      <ion-item>
+        <button ion-button icon-start clear item-start>
+          <ion-icon name="create"></ion-icon>
+          Ubah
+        </button>
+        
+        <button ion-button icon-start clear item-end>
+          <ion-icon name="trash"></ion-icon>
+          Hapus
+        </button>
+      </ion-item>
+
+    </ion-list>
+
+  </ion-card>
+
+</ion-content>
+<!--ion-list no-lines-->

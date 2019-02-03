@@ -1,0 +1,72 @@
+ion-app._gmaps_cdv_ .nav-decor {
+    background-color: transparent !important;
+}
+
+ion-app._gmaps_cdv_ .ion-page:not(._gmaps_cdv_),
+ion-app._gmaps_cdv_ ion-modal:not(._gmaps_cdv_) {
+    display: none;
+}
+
+page-lahan {
+    #map_canvas {
+        background: #d6d6d6;
+        width: 100%;
+        border: none;
+        vertical-align: middle;
+        height: 225px !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .card-title {
+        text-align: center;
+        position: relative;
+        top: -160px;
+        font-size: 4.5em;
+        width: 100%;
+        font-weight: bold;
+        color: color($colors, agrifarm);
+        text-shadow: 1px 1px 4px #000000;
+    }
+    .card-subtitle {
+        text-align: center;
+        font-size: 1.0em;
+        position: relative;
+        top: -135px;
+        width: 100%;
+        color: #fff;
+        text-shadow: 1px 1px 2px #000000;
+    }
+    .card-detail {
+        margin-top: -100px;
+    }
+    .lahan-info {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        margin-top: 225px;
+        .lahan-nama {
+            font-size: 18px;
+            font-weight: bold;
+            max-width: 80%;
+        }
+    }
+    .lahan-photo img {
+        margin: auto;
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        margin-top: -64px;
+        box-shadow: 0px 4px 4px #a3a3a3;
+    }
+}
+
+.ion-tab-fix {
+    .scroll-content {
+      margin-bottom: 0 !important;
+    }
+    
+    .tabbar.show-tabbar {
+      display: none !important;
+    }
+}

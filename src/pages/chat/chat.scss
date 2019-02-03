@@ -1,0 +1,81 @@
+page-chat {
+  .message {
+    padding: 10px !important;
+    transition: all 250ms ease-in-out !important;
+    border-radius: 4px !important;
+    margin-bottom: 8px !important;
+    box-shadow: 1px 1px 0px #ececec;
+    background: color($colors, light);
+
+    .user_name {
+      color: color($colors, agrifarm);
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .text {
+      color: color($colors, dark);
+      display: block;
+      margin-top: 10px;
+    }
+
+    .time {
+      color: color($colors, agrifarm);
+      text-align: left;
+      font-size: small;
+      display: block;
+      margin-left: 0px;
+      margin-top: 10px;
+    }
+  }
+
+  .message.me {
+    background: color($colors, agrifarm);
+    
+    .user_name {
+      color: color($colors, light);
+    }
+
+    .text {
+      color: #ffffff;
+    }
+
+    .time {
+      color: color($colors, light);
+      margin-left: 0;
+      margin-right: 0px;
+      text-align: right;
+      margin-top: 10px;
+    }
+  }
+
+  .text-input-md {
+    margin: 0;
+  }
+  ion-content > .scroll-content {
+    padding-bottom: 56px;
+    /*margin-bottom: 56px;*/
+  }
+  .input-cover {
+    position: static;
+  }
+  .footer-bar {
+    bottom: 56px;
+  }
+  .footer-bar-up {
+    bottom: 0;
+  }
+  button {
+    ion-badge {
+      position: absolute;
+      top: -0.2rem;
+      right: -0.2rem;
+      opacity: 0.9;
+
+      & ~ ion-icon {
+        margin-right: 1.2rem;
+      }
+    }
+  }
+}

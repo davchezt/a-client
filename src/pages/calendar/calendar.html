@@ -1,0 +1,195 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light" style="display: block !important;">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">Calendar</ion-title>
+    <!--ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="add-circle"></ion-icon>
+      </button>
+    </ion-buttons-->
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content (ionScroll)="onScroll($event)">
+  <div class="cover header-md" style="margin-top: -55px;">
+    <img class="cover" src="assets/img/cover.png" alt="Register">
+  </div>
+  <!--ion-list>
+    <ion-item *ngFor="let cal of calendars" tappable>
+      <button ion-button icon-only item-start clear (click)="addEvent(cal)">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      {{cal.name}}
+      <p>ID: {{cal.id}} isPrimary: {{cal.isPrimary}}</p>
+      <button ion-button icon-only item-end clear (click)="openCal(cal)">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list-->
+
+  <div class="calendar-header">
+    <ion-row class="calendar-month">
+      <!--ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-back"></ion-icon></ion-col>
+      <ion-col col-8>{{currentMonth}} {{currentYear}}</ion-col>
+      <ion-col col-2 (click)="goToNextMonth()"><ion-icon name="arrow-forward"></ion-icon></ion-col-->
+      <ion-col col-2></ion-col>
+      <ion-col col-8><b>{{currentMonth | uppercase}} {{currentYear}}</b></ion-col>
+      <ion-col col-2></ion-col>
+    </ion-row>
+  </div>
+  <div class="calendar-body">
+    <ion-grid>
+      <ion-row class="calendar-weekday">
+        <ion-col ion-text color="light">MIN</ion-col>
+        <ion-col ion-text color="light">SEN</ion-col>
+        <ion-col ion-text color="light">SEL</ion-col>
+        <ion-col ion-text color="light">RAB</ion-col>
+        <ion-col ion-text color="light">KAM</ion-col>
+        <ion-col ion-text color="light">JUM</ion-col>
+        <ion-col ion-text color="light">SAB</ion-col>
+      </ion-row>
+      <ion-row class="calendar-date">
+      <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month" (click)="goToLastMonth()">{{lastDay}}</ion-col>
+      <ion-col col-1 *ngFor="let day of daysInThisMonth" (click)="selectDate(day)">
+        <span class="currentDate" *ngIf="currentDate === day && currentClick === day">{{day}}</span>
+        <span class="currentDate" *ngIf="currentDate === day && currentClick !== day">{{day}}</span>
+        <span class="currentClick" *ngIf="currentDate !== day && currentClick === day">{{day}}</span>
+        <span class="otherDate" *ngIf="currentDate !== day && currentClick !== day; else otherDay">{{day}}</span>
+        <ng-template #otherDate class="otherDate">
+          {{day}}<br>
+          <div class="event-bullet" *ngIf="checkEvent(day)"></div>
+        </ng-template>
+      </ion-col>
+      <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month" (click)="goToNextMonth()">{{nextDay}}</ion-col>
+    </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="selected-event" *ngIf="isSelected">
+    <ion-list>
+      <ion-item *ngFor="let se of selectedEvent">
+        <ion-buttons end>
+          <button ion-button clear icon-only (click)="deleteEvent(se)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+        </ion-buttons>
+        <h2>{{se.title}}</h2>
+        <h3>{{se.message}}</h3>
+        <p>Start Date: {{se.startDate}}<br>
+        Start Date: {{se.endDate}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  
+  <ion-list *ngIf="adaJadwal">
+    <ion-list-header color="agrifarm">
+        Jadwal hari ini
+      <p ion-text item-end><ion-icon name="calendar" style="zoom: 0.8"></ion-icon> {{today | date: 'dd/MM/yyyy'}}</p>
+    </ion-list-header>
+    <ion-item tappable *ngFor="let item of jadwal" (click)="openLahan(item.lahan_id)">
+      <ion-icon color="light" item-start name="checkmark" style="background: #88b917;padding: 8px 12px;border-radius: 50%;border: 4px solid #d8ea27;box-shadow: 0px 4px 4px #a3a3a3;zoom:1.0;"></ion-icon>
+      <ion-label>
+        {{item.panen_nama | titlecase}}<br /><small>tonase:</small> <small ion-text color="facebook">{{item.panen_tonase}} ton</small>
+      </ion-label>
+      <ion-note item-end>
+        <i class="wi wi-thermometer-internal" style="zoom:1.0;"></i> 
+        <small ion-text color="gray" style="text-overflow: ellipsis;width: 150px;">{{item.lahan_nama | slice:0:15}}... {{item.lahan_luas}}{{item.lahan_satuan}}</small><br />
+        <small ion-text color="gray" style="text-overflow: ellipsis;width: 150px;">{{item.lahan_lokasi | slice:0:15}}...</small>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="!adaJadwal">
+    <ion-list-header color="agrifarm">
+      Jadwal hari ini
+      <p ion-text item-end><ion-icon name="calendar" style="zoom: 0.8"></ion-icon> {{today | date: 'dd/MM/yyyy'}}</p>
+    </ion-list-header>
+    <ion-card>
+      <ion-card-content>
+        <p ion-text text-center>Tidak ada jadwal untuk hari ini.</p>
+      </ion-card-content>
+    </ion-card>
+    <br />
+  </ion-list>
+
+  <!--ion-list padding>
+    <ion-item tappable>
+      <button ion-fab item-start mini clear (click)="addEvent(agriFarmCalendar)">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <h2>{{agriFarmCalendar.name}}</h2>
+      <h3>ID: {{agriFarmCalendar.id}} isPrimary: {{agriFarmCalendar.isPrimary}}</h3>
+      <button ion-button icon-only item-end clear (click)="openCal(agriFarmCalendar)">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list-->
+
+  <ion-list margin-top>
+    <ion-list-header color="agrifarm" (click)="scrollTo(458)" tappable>
+      Jadwal panen yang akan datang
+      <p ion-text item-end><ion-icon name="calendar" style="zoom: 0.8"></ion-icon></p>
+    </ion-list-header>      
+  </ion-list>
+
+  <div padding>
+    <timeline endIcon="close" *ngIf="adaJadwalSemua">
+      <timeline-item *ngFor="let item of items">
+        <timeline-time [time]="item.time"></timeline-time>
+        <ion-icon [name]="item.ticon" class="timeine"></ion-icon>
+        <ion-card style="width: 100% !important; max-width: 250px;">
+          <ion-card-header style="padding: 0;">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12 no-padding (click)="openLahan(item.lahan_id)" style="box-shadow: 0px 1px 4px 0px #88b917;" tappable>
+                  <ion-list>
+                    <ion-item>
+                      <ion-avatar item-start style="margin: 8px 16px 8px -5px;">
+                        <img src="{{apiService.url}}/{{item.lahan_foto}}" style="margin: auto; width: 40px; height: 40px; border-radius: 50%; box-shadow: 0px 4px 4px #a3a3a3;">
+                      </ion-avatar>
+                      <h2 ion-text color="agrifarm" style="text-overflow: ellipsis;display: contents;">{{item.lahan_nama}}</h2>
+                      <p style="text-overflow: ellipsis;width: 150px;">{{item.lahan_lokasi | slice:0:25}}</p>
+                    </ion-item>
+                  </ion-list>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-header>
+          
+          <ion-card-content style="background: #88b917;margin-top: -15px;padding: 0;">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-12 no-padding text-center>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <table style="width: 100%;color:#f0f8ff">
+                    <tr>
+                      <td ion-text text-right width="40%">Tonase</td>
+                      <td width="10%">&nbsp;:</td>
+                      <td ion-text text-left>{{item.panen_tonase}} ton</td>
+                    </tr>
+                  </table>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </timeline-item>
+    </timeline>
+    <ion-list *ngIf="!adaJadwalSemua">
+      <ion-card>
+        <ion-card-content>
+          <p ion-text text-center>Belum ada jadwal panen.</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+    <br />
+    <br />
+    <br />
+  </div>
+
+</ion-content>

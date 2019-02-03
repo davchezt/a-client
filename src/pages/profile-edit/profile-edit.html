@@ -1,0 +1,61 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Edit Profil
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="home">
+  </div>
+
+  <div style="background-color: #ffffff; margin-top: -15px">
+    <ion-list padding margin-top>
+
+      <ion-item class="form">
+        <ion-label stacked>Nama</ion-label>
+        <ion-input type="text" [(ngModel)]="userData.nama" value="{{userData.nama}}" (keydown)="checkValue()" (keyup)="checkValue()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+
+      <ion-item class="form">
+        <ion-label>Jenis Kelamin</ion-label>
+        <ion-select [(ngModel)]="userData.kelamin" (ionChange)="checkValue()">
+          <ion-option value="0">Laki-laki</ion-option>
+          <ion-option value="1">Perempuan</ion-option>
+        </ion-select>
+      </ion-item>
+      
+      <ion-item class="form">
+        <ion-label stacked>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="userData.email" value="{{userData.email}}" (keydown)="checkValue()" (keyup)="checkValue()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+
+      <ion-item class="form">
+        <ion-label stacked>Kontak</ion-label>
+        <ion-input type="tel" [(ngModel)]="userData.kontak" value="{{userData.kontak}}" (keydown)="checkValue()" (keyup)="checkValue()" (focusout)="scrollTop()"></ion-input>
+      </ion-item>
+      <ion-item>
+
+      </ion-item>
+      
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer #footerInput style="background-color: #fff;">
+  <ion-toolbar>
+    <ion-buttons left>
+      <button ion-button clear color="agrifarm" style="padding: 18px;" (click)="back()">
+        Batal
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button clear icon-start solid style="padding: 18px;" color="agrifarm" (click)="save()" [disabled]="!hasChange">
+        <ion-icon name="checkmark"></ion-icon>
+        Simpan
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,107 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm" #navbar>
+    <ion-buttons start>
+      <button ion-button color="light" (click)="dismiss()" *ngIf="!hasFocus" icon-end>Tutup</button>
+    </ion-buttons>
+  
+    <ion-title *ngIf="agronomis.name === null">Mengantri</ion-title>
+    <ion-title *ngIf="agronomis.name !== null">
+      {{ agronomis.name }}<br />
+      <small *ngIf="agronomis.online && isAgronomisTyping"><i>mengetik...</i></small>
+      <small *ngIf="!agronomis.online"><i>offline</i></small>
+      <small *ngIf="agronomis.online && !isAgronomisTyping"><i>online</i></small>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;">
+  </div>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid padding>
+    <ion-row>
+      <ion-col col-12 class="message me">
+        <ion-row>
+          <ion-col>
+            <span class="user_name">{{ user.name }}</span>
+            <span class="text">{{ subject }}</span>
+            <div class="time">{{ common.relative_time(created) }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngFor="let chat of chats">
+      
+      <ion-col col-9 *ngIf="chat.from !== user.user_id" class="message other">
+        <ion-row>
+          <ion-col>
+            <span class="user_name">{{ agronomis.name }}</span>
+            <span class="image" *ngIf="chat.image">
+              <img src="{{ dataServices.socketUrl }}/{{ chat.image }}" alt="gambar" imageViewer />
+            </span>
+            <span class="text">{{ chat.text }}</span>
+            <div class="time">{{ common.relative_time(chat.created) }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+  
+      <ion-col offset-3 col-9 *ngIf="chat.from === user.user_id" class="message me">
+        <ion-row>
+          <ion-col>
+            <span class="user_name">{{ user.name }}</span>
+            <span class="image" *ngIf="chat.image">
+              <img src="{{ dataServices.socketUrl }}/{{ chat.image }}" alt="gambar" imageViewer />
+            </span>
+            <span class="text"><span>{{ chat.text }}</span></span>
+            <div class="read">
+              <i ion-text text-left *ngIf="chat.read">✔✔</i>
+              <i ion-text text-left class="unread" *ngIf="!chat.read && agronomis.online">✔✔</i>
+              <i ion-text text-left class="unread" *ngIf="!chat.read && !agronomis.online">✔</i>
+            </div>
+            <div class="time">
+              {{ common.relative_time(chat.created) }}
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12 *ngIf="agronomis.name === null" class="message other">
+        <ion-row>
+          <ion-col>
+            <span class="user_name">AgriFarm&trade; BOT</span>
+            <span class="text">Pesan anda masih dalam antrian, mohon tunggu</span>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
+
+</ion-content>
+
+<ion-footer [keyboardAttach]="content" #footerInput style="background-color: #fff;" *ngIf="agronomis.name !== null">
+  <ion-toolbar>
+    <form (ngSubmit)="sendMessage()">
+    <ion-row>
+      <ion-col col-10>
+        <ion-item no-lines>
+          <ion-input type="text" placeholder="Pesan..." [(ngModel)]="message" (ionFocus)="scrollBottom()" (keydown)="isTyping($event)" (keyup)="isTyping($event)" (ionInput)="onKeypress($event)" name="message" #messageInput></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button clear color="agrifarm" (click)="sendMessage()" [disabled]="message === ''">
+          <ion-icon name="send" style="zoom: 1.5;"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+    </form>
+  </ion-toolbar>
+</ion-footer>

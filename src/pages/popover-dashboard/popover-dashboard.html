@@ -1,0 +1,10 @@
+<ion-list>
+    <div [ngSwitch]="page">
+        <ion-list-header *ngSwitchCase="'lahan'" color="agrifarm">{{page | uppercase}}</ion-list-header>
+    </div>
+
+    <button small ion-item (click)="add(page)" *ngIf="page == 'lahan'">
+        <ion-icon item-left name="add"></ion-icon>
+        Tambahkan
+    </button>
+</ion-list>

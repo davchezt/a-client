@@ -1,0 +1,6 @@
+<ion-tabs #myTabs>
+  <ion-tab tabIcon="home" tabTitle="Beranda" [root]="tab0" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab *ngIf="result.type == 1" tabIcon="search" tabTitle="Pencarian" [root]="tab1" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab tabIcon="calendar" tabTitle="Kalender" [root]="tab2" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab tabIcon="chatboxes" tabTitle="Obrolan" [root]="tab3" tabBadge="{{ chatCount > 0 ? chatCount : '' }}" tabBadgeStyle="danger" tabsHideOnSubPages="true"></ion-tab>
+</ion-tabs>

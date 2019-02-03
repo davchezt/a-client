@@ -1,0 +1,147 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      {{lahan.nama | titlecase}}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentActionSheet()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)">
+  <div class="cover header-md">
+    <div id="map_canvas"></div>
+  </div>
+
+  <div class="lahan-info">
+    <div class="lahan-photo">
+      <img src="{{apiService.url}}/{{lahan.foto}}">
+    </div>
+    <div class="profile-name">
+      <h4>{{lahan.nama | titlecase}}</h4>
+      <p tappable>
+        <ion-icon name="pin" style="zoom:0.8;" color="googleyellow"></ion-icon> {{ lahan.lokasi | titlecase }}
+      </p>
+    </div>
+  </div>
+  <hr />
+
+  <ion-segment [(ngModel)]="navigasi" color="agrifarm" (ionChange)="segmentChanged($event)" style="margin-top: 12px;">
+    <ion-segment-button value="komoditas">
+      Komoditas
+    </ion-segment-button>
+    <ion-segment-button value="cuaca">
+      Cuaca
+    </ion-segment-button>
+  </ion-segment>
+
+  <div style="background-color: #fff">
+    <div [ngSwitch]="navigasi" margin-top>
+      <ion-list *ngSwitchCase="'komoditas'">
+        <ion-item *ngFor="let kmdts of komoditas">
+          <ion-icon color="light" item-start name="calendar" style="background: #88b917;padding: 8px 12px;border-radius: 50%;border: 4px solid #d8ea27;box-shadow: 0px 4px 4px #a3a3a3;zoom:1.0;"></ion-icon>
+          <ion-label>
+            {{ kmdts.nama | titlecase }}<br /><ion-badge color="agrifarm"><small ion-text color="ligjht">{{ kmdts.jumlah }}</small></ion-badge> <small>komoditas</small>
+          </ion-label>
+          <!--ion-note item-end>
+            <i class="wi wi-thermometer-internal" style="zoom:1.0;"></i> 
+            <small>{{lahan.nama | titlecase}} {{lahan.luas}}{{lahan.satuan}}</small>
+          </ion-note-->
+        </ion-item>
+        <ion-item no-lines *ngIf="adaKomoditas" style="min-height: 180px;">
+          &nbsp;
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div [ngSwitch]="navigasi" margin-top>
+      <ion-list *ngSwitchCase="'cuaca'">
+        <ion-card class="card-ion">
+          <ion-item>
+            <ion-avatar item-start>
+              <i class="wi {{currentWeather.icon}}" style="zoom: 1.5; padding: 5px;"></i>
+            </ion-avatar>
+            <h2 ion-text color="agrifarm">{{ weather.name }}</h2>
+            <p ion-text text-left>{{ GetDay(weather.dt) }} {{ GetTime(weather.dt) | date: 'dd/MM/yyyy' }}</p>
+          </ion-item>
+          
+          <img src="assets/img/cover_p.png" alt="bg">
+          <div class="card-title" ion-text color="light"><i class="wi wi-thermometer" style="zoom: 0.65"></i> {{ weather.main.temp }}<i class="wi wi-celsius"></i></div>
+          <div class="card-subtitle"><i class="wi {{currentWeather.icon}}"></i> {{ nameToIndo(currentWeather.main) }} &mdash; {{ currentWeather.description }}</div>
+          
+          <ion-card-content class="card-detail">
+            <ion-grid>
+              <ion-row>
+                <ion-col col-7>
+                  <h6>Ketinggian: <span ion-text color="instagramorange">{{ weather.main.grnd_level }}M</span></h6>
+                </ion-col>
+                <ion-col col-5>
+                  <h5 ion-text text-right><span ion-text color="instagramorange">{{ weather.main.sea_level }}</span> MDPL</h5>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-6 ion-text text-right>
+                  Arah Angin <i ion-text color="agrifarmdark" class="wi wi-wind-direction"></i><br/>
+                  Kecepatan Angin <i ion-text color="agrifarmdark" class="wi wi-barometer"></i><br/>
+                  Kelembaban <i ion-text color="agrifarmdark" class="wi wi-humidity"></i><br/>
+                  Tekanan Udara <i ion-text color="agrifarmdark" class="wi wi-thermometer"></i>
+                </ion-col>
+                <ion-col col-6>
+                  <span ion-text color="agrifarmdark">{{ windDirection(weather.wind.deg) }}</span><br/>
+                  <span ion-text color="agrifarmdark">{{ weather.wind.speed }} M/detik</span><br/>
+                  <span ion-text color="agrifarmdark">{{ weather.main.humidity }}%</span><br/>
+                  <span ion-text color="agrifarmdark">{{ weather.main.pressure }} Hpa</span>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        <ion-item *ngFor="let day of forecast.list" class="form">
+          <ion-badge color="agrifarm" style="margin-left: 10px">{{ day.dt_txt }}</ion-badge>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-2>
+                <!--img src="http://openweathermap.org/img/w/{{day.weather[0].icon}}.png"-->
+                <i class="wi {{GetIcon(day.weather[0].id)}}" style="zoom: 2.0; padding: 8px 0 0 0px;"></i>
+              </ion-col>
+              <ion-col col-10>
+                <h5 ion-text color="agrifarmdark">{{ nameToIndo(day.weather[0].main) }}  &mdash; {{ day.weather[0].description }}</h5>
+                <p>
+                  <span ion-text color="instagramorange">
+                    <i class="wi wi-thermometer-exterior" style="zoom: 0.7;"></i> {{ day.main.temp }}&deg;c
+                  </span> &nbsp;
+                  <i class="wi wi-thermometer" ion-text color="agrifarmdark" style="zoom: 0.7;"></i> {{ day.main.pressure }} Hpa &nbsp;
+                  <i ion-text color="agrifarmdark" class="wi wi-humidity" style="zoom: 0.8;"></i> {{ day.main.humidity }}%
+                  <br />
+                  <i class="wi wi-wind-direction" ion-text color="agrifarmdark"></i> {{ windDirection(day.wind.deg) }} &nbsp;
+                  <i ion-text color="agrifarmdark" class="wi wi-cloudy-gusts"></i> {{ day.wind.speed }} M/detik
+                </p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div [ngSwitch]="navigasi">
+      <div *ngIf="!adaKomoditas">
+        <ion-card *ngSwitchCase="'komoditas'" margin-top style="min-height: 180px;box-shadow: none;border: none;">
+          <ion-card-content>
+            <p ion-text text-center>Belum ada data komoditas untuk ditampilkan.</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <ion-fab right bottom *ngIf="navigasi == 'komoditas'">
+      <button ion-fab color="agrifarm" mini (click)="presentActionSheet()"><ion-icon name="more"></ion-icon></button>
+    </ion-fab>
+  
+  </div>
+
+</ion-content>

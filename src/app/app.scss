@@ -1,0 +1,121 @@
+// App Global Sass
+// --------------------------------------------------
+
+// Transparent status bar and awesome tool bar style
+// --------------------------------------------------
+
+// Feat android transparent status bar
+// Set padding-top and default bg-color for status bar
+
+.platform-android {
+    .ion-page {
+      ion-header {
+        padding-top: $cordova-md-statusbar-padding + 4;
+        background-color: color($colors, agrifarm);
+      }
+    }
+  }
+  
+  // Super bar placeholder
+  // Work in tool bar with transparent status bar
+  
+  %anu {
+    .scroll-content {
+      margin-top: 0 !important;
+    }
+  
+    ion-header {
+      background-color: initial !important;
+      transition: background-color 1s ease;
+  
+      &:after {
+        height: 0  !important;
+      }
+    }
+
+    .toolbar-background {
+      background-color: initial;
+      transition: background-color 1s ease;
+  
+      &:after {
+        height: 0  !important;
+      }
+    }
+  
+    .opaque {
+      background-color: color($colors, agrifarm) !important;
+  
+      &:after {
+        height: 5px !important;
+      }
+  
+      .toolbar-background {
+        background-color: color($colors, agrifarm) !important;
+      }
+    }
+  }
+  
+  // Extend super bar placeholder for android
+  
+  .platform-android {
+    page-home, page-timeline {
+      @extend %anu;
+    }
+  }
+  
+  // Other custom Sass
+  // You don't have to care about it
+  // --------------------------------------------------
+  
+  .menu-content {
+    .avatar {
+      position: absolute;
+      bottom: 0.8rem;
+      left: 1.6rem;
+  
+      img {
+        height: 8rem;
+        margin-bottom: 1.6rem;
+        border-radius: 100%;
+        border: 4px solid color($colors, light);
+      }
+  
+      p {
+        color: #fff;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .mask::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .15);
+  }
+  
+  .cover {
+    position: relative;
+    line-height: 0;
+  
+    .header {
+        position: absolute;
+        top: $cordova-md-statusbar-padding;
+        left: 0.8rem;
+    }
+  
+    img.cover {
+      width: 100%;
+      border: none;
+      vertical-align: middle;
+      height: 140px;
+    }
+  }
+
+  .item-md.form {
+    padding-left: 0px !important;
+  }
+  

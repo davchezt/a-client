@@ -1,0 +1,47 @@
+<ion-menu [content]="content">
+  <ion-content class="menu-content">
+    <!--Cover and avatar-->
+    <div class="cover header-md mask" margin-bottom>
+      <img src="assets/img/cover_p.png" alt="menu-header">
+      <div class="avatar">
+        <img *ngIf="!dataServices.user.pic" src="assets/img/agritama.png">
+        <img *ngIf="dataServices.user.pic" [src]="apiService.url + dataServices.user.pic">
+        <p>{{ dataServices.user.name }}</p>
+      </div>
+    </div>
+    <!--Menu list-->
+    <ion-item-divider>Pribadi</ion-item-divider>
+    <ion-list>
+      <ion-item menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon name="{{p.icon}}" item-left></ion-icon>
+        {{p.title}}
+      </ion-item>
+    </ion-list>
+
+    <ion-item-divider>Aplikasi</ion-item-divider>
+    <ion-item menuClose ion-item *ngFor="let p of pagesTwo" (click)="openPage(p)">
+      <ion-icon name="{{p.icon}}" item-left></ion-icon>
+      {{p.title}}
+    </ion-item>
+  </ion-content>
+
+  <ion-footer>
+    <ion-grid>
+      <ion-row no-padding class="other-data">
+        <ion-col no-padding class="column">
+        </ion-col>
+        <ion-col no-padding class="column">
+          <button ion-button icon-left round color="agrifarm" menuClose (click)="logout()">
+            <ion-icon name="log-out"></ion-icon>
+            Log Out
+          </button>
+        </ion-col>
+        <ion-col no-padding class="column">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-footer>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

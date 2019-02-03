@@ -1,0 +1,20 @@
+page-edit-lahan {
+    .lahan-info {
+        position: relative;
+        z-index: 2;
+        margin-top: -64px;
+        text-align: center;
+        .lahan-nama {
+            font-size: 18px;
+            font-weight: bold;
+            max-width: 80%;
+        }
+    }
+    .lahan-photo img {
+        margin: auto;
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        box-shadow: 0px 4px 4px #a3a3a3;
+    }
+}

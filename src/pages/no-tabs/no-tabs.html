@@ -1,0 +1,98 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar"> About AgriFarm </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;" />
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      <h2 ion-text text-center color="agrifarm">AgriFarm for Android&trade;</h2>
+    </ion-card-header>
+
+    <div class="cover-header">
+      <img class="image" src="assets/img/cover_p.png" />
+      <div class="title" ion-text color="light">AgriFarm</div>
+      <div class="subtitle">v1.0.0-g1a</div>
+      <div class="powered">
+        product by AGRIKULTURA INVESTAMA <br />
+        <small>Research Based Agri-Biotech Manufacturing Enterprise</small>
+      </div>
+    </div>
+
+    <ion-card-content class="hero">
+      <hr />
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 no-padding ion-text text-center>
+            Developed by Agrifarm Dev Team<br />
+            <span ion-text color="agrifarm"
+              >dev<ion-icon name="ios-at-outline" style="zoom:0.7;"></ion-icon
+              >agritama.farm</span
+            >
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 ion-text text-right>
+            Lead Dev:<br />
+            Dev Team:
+          </ion-col>
+          <ion-col col-8>
+            <span ion-text color="agrifarm">Raiza Rhamdan</span><br />
+            <span ion-text color="agrifarm">Aditya Galih Utama</span><br />
+            <span ion-text color="agrifarm">Anggita Prihatmojo</span><br />
+            <span ion-text color="agrifarm">Ganda Sukmana</span><br />
+            <span ion-text color="agrifarm">Khemil Yusya</span><br />
+            <span ion-text color="agrifarm">Raiza Rhamdan</span><br />
+            <!--span ion-text color="agrifarm">Iqbal Fathurrahman</span-->
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12 no-padding ion-text text-center>
+            <h2>Investor dan kolaborator</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4 ion-text text-center>
+            <img
+              src="assets/img/pathner/1.png"
+              style="width: 64px; margin: auto;"
+              alt="SBM ITB"
+            />
+          </ion-col>
+          <ion-col col-4 ion-text text-center>
+            <img
+              src="assets/img/pathner/2.png"
+              style="width: 64px; margin: auto;"
+              alt="THE GREATER HUB"
+            />
+          </ion-col>
+          <ion-col col-4 ion-text text-center>
+            <img
+              src="assets/img/pathner/3.png"
+              style="width: 64px; margin: auto;"
+              alt="RISTEKDIKTI"
+            />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

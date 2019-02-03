@@ -1,0 +1,26 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Ungah Foto
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+  
+<ion-content (ionScroll)="onScroll($event)">
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="Register">
+  </div>
+  <ion-list padding>
+    <ion-item>
+      <p>{{imageURI}}</p>
+      <button ion-button color="secondary" (click)="getImage()">Pilih Foto</button>
+    </ion-item>
+    <ion-item *ngIf="showPreview">
+      <h4>Image Preview</h4>
+      <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" />
+    </ion-item>
+    <ion-item>
+      <button ion-button (click)="uploadFile()">Upload</button>
+    </ion-item>
+  </ion-list>
+</ion-content>

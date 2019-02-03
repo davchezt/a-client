@@ -1,0 +1,87 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <ion-title [hidden]="!showToolbar">
+      Register
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <!--div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" alt="Register" style="margin-top: -55px;">
+  </div-->
+
+  <ion-list padding>
+    <ion-item class="form">
+      <ion-label floating color="gray">Nama Lengkap</ion-label>
+      <ion-input type="text" [(ngModel)]="userData.nama" (focusout)="scrollTop()"></ion-input>
+    </ion-item>
+
+    <!--ion-item>
+      <ion-label floating *ngIf="!usePhone" color="gray">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="userData.username" *ngIf="!usePhone" (focusout)="scrollTop()"></ion-input>
+      <ion-label floating *ngIf="usePhone" color="gray">No.Telpon</ion-label>
+      <ion-input type="tel" [(ngModel)]="userData.username" *ngIf="usePhone" (focusout)="scrollTop()"></ion-input>
+    </ion-item-->
+
+    <ion-item class="form">
+      <ion-label floating color="gray">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="userData.username" (focusout)="scrollTop()"></ion-input>
+    </ion-item>
+
+    <ion-grid no-padding style="margin-top: 30px;">
+      <ion-row>
+        <ion-col col-2 no-padding>
+          <ion-item class="form" style="margin-top: -30px;">
+            <ion-label stacked color="gray">No.</ion-label>
+            <ion-input type="tel" value="+62" disabled></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-10 no-padding>
+          <ion-item class="form" style="margin-top: -30px;">
+            <ion-label stacked color="gray">Telpon</ion-label>
+            <ion-input type="number" [(ngModel)]="userData.phone" (focusout)="scrollTop()"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  <!--ion-toggle [(ngModel)]="usePhone" color="agrifarm"></ion-toggle>
+      <ion-icon name="call"></ion-icon>
+      <ion-icon name="mail"></ion-icon-->
+
+    <ion-item class="form" style="margin-top: 20px">
+      <ion-label color="gray">Jenis Kelamin</ion-label>
+      <ion-select [(ngModel)]="userData.gender">
+        <ion-option value="0">Laki-laki</ion-option>
+        <ion-option value="1">Perempuan</ion-option>
+      </ion-select>
+    </ion-item>
+      
+    <ion-item class="form">
+      <ion-label floating color="gray">Password</ion-label>
+      <ion-input type="text" [(ngModel)]="userData.password" *ngIf="showPasswordText" (focusout)="scrollTop()"></ion-input>
+      <ion-input type="password" [(ngModel)]="userData.password" *ngIf="!showPasswordText" (focusout)="scrollTop()"></ion-input>
+      <button ion-button clear color="dark" type="button" item-right (click)="showPasswordText = !showPasswordText" class="eye">
+        <ion-icon name="eye" *ngIf="!showPasswordText" style="zoom: 1.2" color="agrifarm"></ion-icon>
+        <ion-icon name="eye-off" *ngIf="showPasswordText" style="zoom: 1.2" color="agrifarm"></ion-icon>
+      </button>
+    </ion-item>
+
+    <ion-item class="form">
+      <ion-label floating color="gray">Ulang Password</ion-label>
+      <ion-input type="text" [(ngModel)]="userData.refpassword" *ngIf="showRefPasswordText" (focusout)="scrollTop()"></ion-input>
+      <ion-input type="password" [(ngModel)]="userData.refpassword" *ngIf="!showRefPasswordText" (focusout)="scrollTop()"></ion-input>
+      <button ion-button clear color="dark" type="button" item-right (click)="showRefPasswordText = !showRefPasswordText" class="eye">
+        <ion-icon name="eye" *ngIf="!showRefPasswordText" style="zoom: 1.2" color="agrifarm"></ion-icon>
+        <ion-icon name="eye-off" *ngIf="showRefPasswordText" style="zoom: 1.2" color="agrifarm"></ion-icon>
+      </button>
+    </ion-item>
+
+    <div padding>
+      <button ion-button block color="agrifarm" (click)="signup()">Register</button>
+      <p center text-center>Sudah memiliki akun?</p>
+      <button ion-button block color="agrifarm" (click)="goLogin()" clear>Masuk</button>
+    </div>
+    
+  </ion-list>
+</ion-content>

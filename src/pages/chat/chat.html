@@ -1,0 +1,72 @@
+<ion-header [class.opaque]="showToolbar">
+  <ion-navbar color="agrifarm">
+    <button ion-button menuToggle color="light">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title [hidden]="!showToolbar">
+      Obrolan <small *ngIf="typing"><i>{{typingUser}} is typing ....</i></small>
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="viewOnline()">
+        <ion-badge color="secondary" *ngIf='common.userInroom.length > 0'>{{ common.userInroom.length }}</ion-badge>
+        <ion-icon name="people"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content (ionScroll)="onScroll($event)" #content>
+  <div class="cover header-md">
+    <img class="cover" src="assets/img/cover.png" style="margin-top: -55px;">
+  </div>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-grid padding>
+    <ion-row *ngFor="let message of messages">
+      
+      <ion-col col-9 *ngIf="message.from !== nickname" class="message" [ngClass]="{'me': message.from === nickname, 'other': message.from !== nickname}">
+        <ion-row>
+          <ion-col>
+            <span class="user_name">{{ message.from }}</span>
+            <span class="text">{{ message.text }}</span>
+            <div class="time">{{relative_time(message.created)}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+ 
+      <ion-col offset-3 col-9 *ngIf="message.from === nickname" class="message" [ngClass]="{'me': message.from === nickname, 'other': message.from !== nickname}">
+        <ion-row>
+          <ion-col>
+            <span class="user_name">{{ message.from }}</span>
+            <span class="text">{{ message.text }}</span>
+            <div class="time">{{relative_time(message.created)}}</div>
+          </ion-col>
+        </ion-row>
+        
+      </ion-col>
+   
+    </ion-row>
+  </ion-grid> 
+</ion-content>
+ 
+<ion-footer [keyboardAttach]="content" #footerInput style="background-color: #fff;">
+  <ion-toolbar>
+    <form (ngSubmit)="sendMessage()">
+    <ion-row>
+      <ion-col col-10>
+        <ion-item no-lines>
+          <ion-input type="text" placeholder="Pesan..." [(ngModel)]="message" (ionFocus)="scrollBottom()" (keydown)="isTyping($event)" (keyup)="isTyping($event)" (ionInput)="onKeypress($event)" name="message" #messageInput></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button clear color="agrifarm" (click)="sendMessage()" [disabled]="message === ''">
+          <ion-icon name="send" style="zoom: 1.5;"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+    </form>
+  </ion-toolbar>
+</ion-footer>

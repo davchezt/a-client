@@ -81,14 +81,14 @@ export class RoomChatPage {
     });
     this.onStartTyping = this.socketServices.on('start-typing').subscribe(data => {
       let message:any = data;
-      if (message.user.toString() === this.agronomis.id.toString()) {
+      if (message.user === this.agronomis.id) {
         // console.log('start-typing');
         this.isAgronomisTyping = true;
       }
     });
     this.onStopTyping = this.socketServices.on('stop-typing').subscribe(data => {
       let message:any = data;
-      if (message.user.toString() === this.agronomis.id.toString()) {
+      if (message.user === this.agronomis.id) {
         // console.log('stop-typing');
         this.isAgronomisTyping = false;
       }
@@ -167,6 +167,7 @@ export class RoomChatPage {
       this.chats.reverse();
       this.dataServices.getAgronomis(room.agronomis).subscribe(user => {
         this.agronomis = user;
+        this.agronomis.id = parseInt(this.agronomis.id);
         this.agronomis.online = this.dataServices.isOnline(room.agronomis);
       });
       if (this.chats.length >= 5) {
@@ -182,7 +183,9 @@ export class RoomChatPage {
     this.postMessage();
     this.message = '';
     this.socketServices.emit('stop-typing', { room: this.roomId, from: this.user.user_id });
-
+    if (this.typingMessage) {
+      clearTimeout(this.typingMessage);
+    }
     this.scrollBottom();
   }
 
